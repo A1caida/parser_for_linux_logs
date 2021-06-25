@@ -12,16 +12,23 @@ int main()
 	string packet;
 	int temp = 0;
 	int temp1 = 0;
-	ofstream Errorfile("C:/Users/A1caida/Desktop/bashtest/Errors.txt");
-	Errorfile.close();
+	int errorcount = 0;
+	string link;
+	string name;
 
-    logfile.open("C:\\Users\\A1caida\\Desktop\\bashtest\\logs\\18.03.2021T02_19_15_log.log");//28.05.2021T04_09_38_log.log   27.05.2021T19_40_17_log.log   18.03.2021T02_19_15_log.log
+	cout << "Link to the file: ";
+	cin >> link;
+	
+	cout << "Link to folder where to save: ";
+	cin >> name;
+
+    logfile.open(link);//28.05.2021T04_09_38_log.log   27.05.2021T19_40_17_log.log   18.03.2021T02_19_15_log.log "C:/Users/A1caida/Desktop/bashtest/logs/21.10.2020T16_12_00_log.log"
 
 	if (logfile)
 	{	
 		string a;
 		string name;
-		int t;
+
 		while (getline(logfile, a, '\n'))
 		{
 			if (a.find("Packet:") != -1)
@@ -53,23 +60,27 @@ int main()
 				{
 					packet += a + '\n';
 					temp++;
+					errorcount++;
 				}
 				else if ((a.find(": [") != -1) || (a.find(": /") != -1) || (a.find(": ") > 10)) {}
 				else
 				{
 					packet += a + '\n';
+					errorcount++;
 				}							
 			}		
 		}
 		logfile.close();
 	}
 
-	Errorfile.open("C:/Users/A1caida/Desktop/bashtest/Errors.txt");
+	name += "/";  name.insert(name.length() - 1, link, link.find_last_of("/"));
+	name.erase(name.length() - 1); name += "_errors" + to_string(errorcount) + ".txt";
+	ofstream Errorfile(name);
 
 	if (Errorfile.is_open())
 	{
 		Errorfile << packet;
-		cout << "Success";
+		cout << "Success "<< errorcount;
 	}
 }
 
