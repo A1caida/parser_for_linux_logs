@@ -36,7 +36,8 @@ int main()
 				temp1 = 0;
 				name = "";
 				packet += '\n'+ a +'\n';
-				name.insert(0, a, a.find('[')+1);
+				name.insert(0, a, a.find('[')+1,a.find(']')+1);
+
 				name.erase(name.size() - 1);				
 			}	
 						
@@ -73,7 +74,7 @@ int main()
 		logfile.close();
 	}
 
-	name += "/";  name.insert(name.length() - 1, link, link.find_last_of("/"));
+	name += "/";  name.insert(name.length() - 1, link, link.find_last_of("/"),link.length());
 	name.erase(name.length() - 1); name += "_errors" + to_string(errorcount) + ".txt";
 	ofstream Errorfile(name);
 
@@ -82,5 +83,6 @@ int main()
 		Errorfile << packet;
 		cout << "Success "<< errorcount;
 	}
+	return 0;
 }
 
